@@ -1,0 +1,17 @@
+{
+  "name": "tomato",
+  "version": "1.0.0",
+  "description": "Make your life count!",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "tomato"
+  ],
+  "author": "isildur",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.13.3"
+  }
+}

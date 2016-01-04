@@ -1,0 +1,33 @@
+extends layout
+
+block content
+    div(data-role='page')
+        div(data-role='header')
+            div(data-role='navbar', data-iconpos='left')
+                ul
+                    li: a(href='#', data-icon='grid')=title
+                    li: a(href='#', data-icon='star') 别人的番茄
+        div(data-role='ui-content')
+            ul(data-role='listview', data-inset='true')
+               li(data-role='list-divider') 2016-01-04
+               li
+                   a(href="/my/detail")
+                       h2 健身
+                       p  ***
+               li
+                   a(href="/my/detail")
+                       h2 学习
+                       p  *****
+               li(data-role='list-divider') 2016-01-03
+               li
+                   a(href="/my/detail")
+                       h2 健身
+                       p  *
+               li
+                   a(href="/my/detail")
+                       h2 学习
+                       p  *********
+
+
+    script(src='/javascripts/jquery-2.1.4.js')
+    script(src='/jquery-mobile/jquery.mobile-1.4.5.js')
