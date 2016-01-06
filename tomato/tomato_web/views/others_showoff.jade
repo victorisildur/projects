@@ -1,0 +1,17 @@
+extends layout
+
+block content
+    div(data-role='page')
+        div(data-role='header')
+            h1= title
+            a(href='/' data-icon='back' class='ui-btn ui-btn-icon-left ui-icon-back ui-btn-icon-notext')
+
+        div(data-role='ui-content')
+            ul(data-role='listview', data-inset='true')
+                li: a(href='#') isi: 健身*** 学习******* 打游戏*
+                li: a(href='#') victor: 打游戏************ 聊天**
+                li: a(href='#') wade: 打球******* party ****
+
+    script(src='/javascripts/jquery-2.1.4.js')
+    script(src='/jquery-mobile/jquery.mobile-1.4.5.js')
+
