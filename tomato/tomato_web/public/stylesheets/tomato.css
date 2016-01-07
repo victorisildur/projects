@@ -1,0 +1,8 @@
+.tomato_image {
+    background-image: url(/images/tomato.png);
+    background-size: 1em;
+    width: 1em;
+    height: 1em;
+    display: inline-block;
+    margin: 0 0.1em;
+}

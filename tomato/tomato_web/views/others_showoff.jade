@@ -8,9 +8,39 @@ block content
 
         div(data-role='ui-content')
             ul(data-role='listview', data-inset='true')
-                li: a(href='#') isi: 健身*** 学习******* 打游戏*
-                li: a(href='#') victor: 打游戏************ 聊天**
-                li: a(href='#') wade: 打球******* party ****
+                li 
+                    a(href='#') 
+                        h2 isi
+
+                        div          
+                            健身
+                            - var n = 0;
+                            while n < 2
+                                div(class='tomato_image')
+                                - n++
+                        div
+                            学习
+                            - var n = 0;
+                            while n < 2
+                                div(class='tomato_image')
+                                - n++
+
+                li 
+                    a(href='#') 
+                        h2 victor
+                        div 
+                            健身
+                            - var n = 0;
+                            while n < 4
+                                div(class='tomato_image')
+                                - n++
+                        div 
+                            学习
+                            - var n = 0;
+                            while n < 1
+                                div(class='tomato_image')
+                                - n++
+
 
     script(src='/javascripts/jquery-2.1.4.js')
     script(src='/jquery-mobile/jquery.mobile-1.4.5.js')
