@@ -5,7 +5,7 @@ block content
         div(data-role='header')
             div(data-role='navbar', data-iconpos='left')
                 ul
-                    li: a(href='#')=title
+                    li: a(href='#', class='ui-btn-active ui-state-persist')=title
                     li: a(href='/others/showoff') 别人的番茄
         div(data-role='ui-content')
             ul(data-role='listview', data-inset='true')
@@ -39,6 +39,3 @@ block content
                        while n < 3
                            div(class='tomato_image')
                            - n++
-
-    script(src='/javascripts/jquery-2.1.4.js')
-    script(src='/jquery-mobile/jquery.mobile-1.4.5.js')

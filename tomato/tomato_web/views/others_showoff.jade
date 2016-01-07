@@ -3,8 +3,10 @@ extends layout
 block content
     div(data-role='page')
         div(data-role='header')
-            h1= title
-            a(href='/' data-icon='back' class='ui-btn ui-btn-icon-left ui-icon-back ui-btn-icon-notext')
+            div(data-role='navbar', data-iconpos='left')
+                ul
+                    li: a(href='/') 我的番茄历史
+                    li: a(href='/others/showoff', class='ui-btn-active ui-state-persist')=title
 
         div(data-role='ui-content')
             ul(data-role='listview', data-inset='true')
@@ -12,7 +14,7 @@ block content
                     a(href='#') 
                         h2 isi
 
-                        div          
+                        div
                             健身
                             - var n = 0;
                             while n < 2
@@ -28,13 +30,13 @@ block content
                 li 
                     a(href='#') 
                         h2 victor
-                        div 
+                        div
                             健身
                             - var n = 0;
                             while n < 4
                                 div(class='tomato_image')
                                 - n++
-                        div 
+                        div
                             学习
                             - var n = 0;
                             while n < 1
@@ -42,6 +44,4 @@ block content
                                 - n++
 
 
-    script(src='/javascripts/jquery-2.1.4.js')
-    script(src='/jquery-mobile/jquery.mobile-1.4.5.js')
 
