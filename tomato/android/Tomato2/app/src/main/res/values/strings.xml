@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Tomato2</string>
+    <string name="action_favorite">favs</string>
+    <string name="action_settings">settings</string>
+</resources>
