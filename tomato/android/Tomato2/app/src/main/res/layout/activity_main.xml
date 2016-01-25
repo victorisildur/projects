@@ -30,16 +30,6 @@
             android:layout_height="match_parent"
             android:layout_width="match_parent"
             app:state="0"/>
-
-        <!--Button
-            android:id="@+id/timer_btn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:text="Running!"
-            android:textColor="@color/white"
-            style="?android:attr/borderlessButtonStyle"/-->
-
     </FrameLayout>
 
     <android.support.v7.widget.RecyclerView
@@ -53,7 +43,7 @@
         android:id="@+id/fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@mipmap/ic_add_white_24dp"
+        android:src="@mipmap/ic_play_arrow_white_24dp"
         android:elevation="10dp"
         app:fab_colorNormal="@color/colorAccent"
         app:fab_colorPressed="@color/colorPrimary"

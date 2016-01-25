@@ -7,28 +7,44 @@ import java.util.Calendar;
  * Created by isi on 16/1/24.
  */
 public class TomatoRecord {
-    private Calendar mTime;
-    private String mDoContent;
+    private Calendar mStartTime;
+    private Calendar mEndTime;
+    private String mActivity;
 
-    public TomatoRecord(Calendar time, String whatdo) {
-        mTime = time;
-        mDoContent = whatdo;
+    public TomatoRecord(Calendar stime, Calendar etime, String whatdo) {
+        mStartTime = stime;
+        mEndTime = etime;
+        mActivity = whatdo;
     }
 
-    public Calendar getmTime() {
-        return mTime;
+    public TomatoRecord(Calendar stime, int lastTimeInMin, String whatdo) {
+        mStartTime = stime;
+        mEndTime = (Calendar) stime.clone();
+        mEndTime.add(Calendar.MINUTE, lastTimeInMin);
+        mActivity = whatdo;
     }
 
-    public void setmTime(Calendar mTime) {
-        this.mTime = mTime;
+    public Calendar getmStartTime() {
+        return mStartTime;
+    }
+    public void setmStartTime(Calendar mStartTime) {
+        this.mStartTime = mStartTime;
     }
 
-    public String getmDoContent() {
-        return mDoContent;
+    public Calendar getmEndTime() {
+        return mEndTime;
     }
 
-    public void setmDoContent(String mDoContent) {
-        this.mDoContent = mDoContent;
+    public void setmEndTime(Calendar mEndTime) {
+        this.mEndTime = mEndTime;
     }
+
+    public String getmActivity() {
+        return mActivity;
+    }
+    public void setmActivity(String mActivity) {
+        this.mActivity = mActivity;
+    }
+
 
 }
