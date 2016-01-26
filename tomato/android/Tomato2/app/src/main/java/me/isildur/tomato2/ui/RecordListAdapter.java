@@ -1,4 +1,4 @@
-package me.isildur.tomato2;
+package me.isildur.tomato2.ui;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -10,6 +10,8 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+import me.isildur.tomato2.R;
+import me.isildur.tomato2.me.isildur.tomato2.data.TomatoRecord;
 import me.isildur.tomato2.util.TimeUtil;
 
 /**
@@ -53,5 +55,9 @@ public class RecordListAdapter extends RecyclerView.Adapter<RecordListAdapter.Vi
     @Override
     public int getItemCount() {
         return mDataSet.size();
+    }
+
+    public void setmDataSet(List<TomatoRecord> mDataSet) {
+        this.mDataSet = mDataSet;
     }
 }

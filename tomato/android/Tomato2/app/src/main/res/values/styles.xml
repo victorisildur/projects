@@ -7,6 +7,13 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
         <item name="android:navigationBarColor">@color/primary_material_light</item>
+        <item name="android:editTextStyle">@style/EditTextTheme</item>
+    </style>
+
+    <style name="EditTextTheme" parent="Widget.AppCompat.EditText">
+        <item name="colorControlNormal">@color/colorDialog</item>
+        <item name="colorControlHighlight">@color/colorDialog</item>
+        <item name="colorControlActivated">@color/colorDialog</item>
     </style>
 
 </resources>

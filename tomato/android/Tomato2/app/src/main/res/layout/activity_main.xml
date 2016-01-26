@@ -25,7 +25,7 @@
         android:layout_height="250dp"
         android:layout_below="@id/my_toolbar">
 
-        <me.isildur.tomato2.TomatoTimer
+        <me.isildur.tomato2.ui.TomatoTimerView
             android:id="@+id/timer"
             android:layout_height="match_parent"
             android:layout_width="match_parent"

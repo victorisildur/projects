@@ -2,4 +2,7 @@
     <string name="app_name">Tomato2</string>
     <string name="action_favorite">favs</string>
     <string name="action_settings">settings</string>
+    <string name="ack">确定</string>
+    <string name="cancel">取消</string>
+    <string name="content_dialog_title">请输入这个钟的目标</string>
 </resources>

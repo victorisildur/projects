@@ -1,4 +1,4 @@
-package me.isildur.tomato2;
+package me.isildur.tomato2.ui;
 
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -8,6 +8,8 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.DashPathEffect;
 import android.graphics.Paint;
+
+import me.isildur.tomato2.R;
 import me.isildur.tomato2.util.TimeUtil;
 
 import android.graphics.RectF;
@@ -18,7 +20,7 @@ import android.view.View;
 /**
  * Created by isi on 16/1/23.
  */
-public class TomatoTimer extends View {
+public class TomatoTimerView extends View {
     private Integer mState;
     private Paint mBgPaint;
     private Paint mArcPaint;
@@ -31,11 +33,11 @@ public class TomatoTimer extends View {
     private long defaultCountMs = 25*1000*60;
 
 
-    public TomatoTimer(Context context, AttributeSet attrs) {
+    public TomatoTimerView(Context context, AttributeSet attrs) {
         super(context, attrs);
-        TypedArray a = context.getTheme().obtainStyledAttributes(attrs,R.styleable.TomatoTimer,0,0);
+        TypedArray a = context.getTheme().obtainStyledAttributes(attrs, R.styleable.TomatoTimerView,0,0);
         try {
-            mState = a.getInteger(R.styleable.TomatoTimer_state, 0);
+            mState = a.getInteger(R.styleable.TomatoTimerView_state, 0);
         } finally {
             a.recycle();
         }
@@ -81,15 +83,14 @@ public class TomatoTimer extends View {
         /* draw rect */
         canvas.drawRect(0, 0, w, h, mBgPaint);
         /* draw circle */
-        canvas.drawArc(w/2-d/2-2*margin,h/2-d/2-2*margin,
-                w/2+d/2+2*margin,h/2+d/2+2*margin,
-                -80,340,false,mCirclePaint);
+        canvas.drawArc(w / 2 - d / 2 - 2 * margin, h / 2 - d / 2 - 2 * margin,
+                w / 2 + d / 2 + 2 * margin, h / 2 + d / 2 + 2 * margin,
+                -80, 340, false, mCirclePaint);
         /* draw tomato logo */
         Bitmap bm = BitmapFactory.decodeResource(getResources(), R.drawable.tomato_white);
         canvas.drawBitmap(bm, null, new RectF(w/2-margin,h/2-d/2-3*margin,w/2+margin,h/2-d/2-margin), mImgPaint);
         /* draw arc */
         int degree = (int) (((double) millisLeft / (double) millisAll) * 360);
-        Log.i("isi", "on draw, ms left:" + millisLeft + ", degree:" + degree);
         canvas.drawArc(w/2-d/2+margin,h/2-d/2+margin,
                 w/2+d/2-margin,h/2+d/2-margin,
                 -90,(int) degree,false,mArcPaint);

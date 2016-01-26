@@ -1,4 +1,4 @@
-package me.isildur.tomato2;
+package me.isildur.tomato2.me.isildur.tomato2.data;
 
 import java.util.Calendar;
 

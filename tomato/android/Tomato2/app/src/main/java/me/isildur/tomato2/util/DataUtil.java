@@ -5,7 +5,7 @@ import android.database.Cursor;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
-import me.isildur.tomato2.TomatoRecord;
+import me.isildur.tomato2.me.isildur.tomato2.data.TomatoRecord;
 import me.isildur.tomato2.me.isildur.tomato2.data.HistoryContract;
 
 /**

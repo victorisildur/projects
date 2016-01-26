@@ -8,7 +8,6 @@ import android.database.sqlite.SQLiteDatabase;
 import java.util.LinkedList;
 import java.util.List;
 
-import me.isildur.tomato2.TomatoRecord;
 import me.isildur.tomato2.util.DataUtil;
 
 /**

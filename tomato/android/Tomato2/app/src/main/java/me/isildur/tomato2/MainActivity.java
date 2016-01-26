@@ -1,13 +1,12 @@
 package me.isildur.tomato2;
 
 import android.os.AsyncTask;
-import android.os.CountDownTimer;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -18,12 +17,18 @@ import java.util.GregorianCalendar;
 import java.util.List;
 
 import me.isildur.tomato2.me.isildur.tomato2.data.TomatoHistory;
+import me.isildur.tomato2.me.isildur.tomato2.data.TomatoRecord;
+import me.isildur.tomato2.ui.OnDialogConfirm;
+import me.isildur.tomato2.ui.RecordListAdapter;
+import me.isildur.tomato2.ui.TomatoContentDialog;
+import me.isildur.tomato2.ui.TomatoTimerView;
+import me.isildur.tomato2.ui_controller.TimerController;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements OnDialogConfirm {
     private RecyclerView mRecyclerView;
     private RecyclerView.LayoutManager mLayoutManager;
-    private RecyclerView.Adapter mAdapter;
-    private TomatoTimer mTomatoTimer;
+    private RecordListAdapter mAdapter;
+    private TimerController mTimerController;
     private FloatingActionButton mFab;
     private TomatoHistory mTomatoHistory;
     private long mCountdownMs = 1*1000*60;
@@ -39,43 +44,23 @@ public class MainActivity extends AppCompatActivity {
     private void initView() {
         Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
         setSupportActionBar(myToolbar);
-        mTomatoTimer = (TomatoTimer) findViewById(R.id.timer);
-        mTomatoTimer.setMillisAll(mCountdownMs);
-        mTomatoTimer.setMillisLeft(mCountdownMs);
         mFab = (FloatingActionButton) findViewById(R.id.fab);
+        mTimerController = new TimerController(this, (TomatoTimerView) findViewById(R.id.timer), mFab);
+        mTimerController.setDefaultTime(mCountdownMs);
     }
     private void initList() {
         mRecyclerView = (RecyclerView) findViewById(R.id.my_recycler_view);
         mRecyclerView.setHasFixedSize(true);
         mLayoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(mLayoutManager);
-        // set adapter via db data
-        new WriteDbTask().execute();
-        new ReadDbTask().execute();
+        //new WriteDbTask().execute();
+        new ReadRecordsAndBindTask().execute();
     }
     private void initActions() {
-        /* fab listener */
         mFab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View view) {
-                /* ask user for tomato content */
-                
-                /* start/stop timer, count down for 25 minutes */
-                new CountDownTimer(mCountdownMs, 1000) {
-                    public void onTick(long millisUntilFinished) {
-                        mTomatoTimer.setMillisLeft(millisUntilFinished);
-                    }
-                    public void onFinish() {
-                        new AlertDialog.Builder(view.getContext())
-                                .setTitle("Time is up")
-                                .setMessage("Take a rest, grab a beer~")
-                                .show();
-                        mTomatoTimer.setMillisAll(mCountdownMs);
-                        mTomatoTimer.setMillisLeft(mCountdownMs);
-                        view.setEnabled(true);
-                    }
-                }.start();
-                view.setEnabled(false);
+                new TomatoContentDialog().show(getFragmentManager(), "content_dialog");
             }
         });
     }
@@ -87,10 +72,6 @@ public class MainActivity extends AppCompatActivity {
             case R.id.action_settings:
                 return true;
             case R.id.action_favorite:
-                new AlertDialog.Builder(this)
-                        .setTitle("Delete entry")
-                        .setMessage("Are you sure you want to delete this entry?")
-                        .show();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -103,7 +84,7 @@ public class MainActivity extends AppCompatActivity {
         return true;
     }
 
-    private class ReadDbTask extends AsyncTask<Void, Integer, List<TomatoRecord>> {
+    private class ReadRecordsAndBindTask extends AsyncTask<Void, Integer, List<TomatoRecord>> {
         @Override
         protected List<TomatoRecord> doInBackground(Void ... voids) {
             mTomatoHistory = TomatoHistory.getInstance(getApplicationContext());
@@ -117,21 +98,33 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private class WriteDbTask extends  AsyncTask<Void, Integer, Void> {
+    private class AddTomatoTask extends  AsyncTask<String, Integer, Void> {
         @Override
-        protected Void doInBackground(Void... voids) {
+        protected Void doInBackground(String... strings) {
+            if(strings.length < 1)
+                return null;
+            Log.i("isi","add task str: " + strings[0]);
             Calendar now = new GregorianCalendar();
-            Calendar time1 = (Calendar) now.clone(); time1.add(Calendar.HOUR, 1);
-            Calendar time2 = (Calendar) time1.clone(); time2.add(Calendar.HOUR, 1);
-            TomatoRecord record0 = new TomatoRecord(now, 25, "body.lifting");
-            TomatoRecord record1 = new TomatoRecord(time1, 25, "family.chat with parent");
-            TomatoRecord record2 = new TomatoRecord(time2, 25, "work.learn android");
+            TomatoRecord record = new TomatoRecord(now, 25, strings[0]);
             mTomatoHistory = TomatoHistory.getInstance(getApplicationContext());
-            mTomatoHistory.addRecord(record0);
-            mTomatoHistory.addRecord(record1);
-            mTomatoHistory.addRecord(record2);
+            mTomatoHistory.addRecord(record);
             return null;
         }
 
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+            mAdapter.setmDataSet(mTomatoHistory.getAllRecords());
+            mAdapter.notifyDataSetChanged();
+        }
     }
+
+    @Override
+    public void onDialogConfirm(boolean ifConfirm, String content) {
+        if(!ifConfirm)
+            return;
+        mTimerController.startCountDown();
+        new AddTomatoTask().execute(content);
+    }
+
 }
