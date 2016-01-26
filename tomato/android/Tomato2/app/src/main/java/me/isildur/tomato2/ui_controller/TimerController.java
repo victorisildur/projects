@@ -1,7 +1,10 @@
 package me.isildur.tomato2.ui_controller;
 
+import android.app.Notification;
+import android.app.NotificationManager;
 import android.content.Context;
 import android.os.CountDownTimer;
+import android.support.v4.app.NotificationCompat;
 import android.support.v7.app.AlertDialog;
 import android.view.View;
 import android.widget.Button;
@@ -83,10 +86,21 @@ public class TimerController {
     private void alertTimeUp() {
         switch (mState) {
             case RUNNING:
-
+                NotificationCompat.Builder builder = new NotificationCompat.Builder(mContext)
+                        .setSmallIcon(R.drawable.notification_template_icon_bg)
+                        .setContentTitle(mContext.getResources().getString(R.string.running_notification_title))
+                        .setContentText(mContext.getResources().getString(R.string.running_notification_text));
+                NotificationManager manager = (NotificationManager) mContext.getSystemService(Context.NOTIFICATION_SERVICE);
+                manager.notify(1, builder.build());
                 break;
             case RESTING:
-                
+                NotificationCompat.Builder builder1 = new NotificationCompat.Builder(mContext)
+                        .setSmallIcon(R.drawable.notification_template_icon_bg)
+                        .setContentTitle(mContext.getResources().getString(R.string.resting_notification_title))
+                        .setContentText(mContext.getResources().getString(R.string.resting_notification_text));
+                NotificationManager manager1 = (NotificationManager) mContext.getSystemService(Context.NOTIFICATION_SERVICE);
+                manager1.notify(2, builder1.build());
+
         }
 
     }
