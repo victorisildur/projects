@@ -31,7 +31,6 @@ public class MainActivity extends AppCompatActivity implements OnDialogConfirm {
     private TimerController mTimerController;
     private FloatingActionButton mFab;
     private TomatoHistory mTomatoHistory;
-    private long mCountdownMs = 1*1000*60;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,7 +45,6 @@ public class MainActivity extends AppCompatActivity implements OnDialogConfirm {
         setSupportActionBar(myToolbar);
         mFab = (FloatingActionButton) findViewById(R.id.fab);
         mTimerController = new TimerController(this, (TomatoTimerView) findViewById(R.id.timer), mFab);
-        mTimerController.setDefaultTime(mCountdownMs);
     }
     private void initList() {
         mRecyclerView = (RecyclerView) findViewById(R.id.my_recycler_view);
@@ -103,9 +101,9 @@ public class MainActivity extends AppCompatActivity implements OnDialogConfirm {
         protected Void doInBackground(String... strings) {
             if(strings.length < 1)
                 return null;
-            Log.i("isi","add task str: " + strings[0]);
             Calendar now = new GregorianCalendar();
-            TomatoRecord record = new TomatoRecord(now, 25, strings[0]);
+            int runMinute = getResources().getInteger(R.integer.default_time_run)/1000/60;
+            TomatoRecord record = new TomatoRecord(now, runMinute, strings[0]);
             mTomatoHistory = TomatoHistory.getInstance(getApplicationContext());
             mTomatoHistory.addRecord(record);
             return null;
@@ -126,5 +124,4 @@ public class MainActivity extends AppCompatActivity implements OnDialogConfirm {
         mTimerController.startCountDown();
         new AddTomatoTask().execute(content);
     }
-
 }

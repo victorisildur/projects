@@ -4,6 +4,8 @@
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorPrimaryLight">#4959bb</color>
     <color name="colorDialog">#328073</color>
+    <color name="resting">#328073</color>
+    <color name="rest_done">#cc6633</color>
     <color name="colorAccent">#FF4081</color>
     <color name="black">#000000</color>
     <color name="grey">#999999</color>

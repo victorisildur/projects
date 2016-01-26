@@ -10,6 +10,7 @@ import android.graphics.DashPathEffect;
 import android.graphics.Paint;
 
 import me.isildur.tomato2.R;
+import me.isildur.tomato2.ui_controller.TimerController;
 import me.isildur.tomato2.util.TimeUtil;
 
 import android.graphics.RectF;
@@ -21,7 +22,6 @@ import android.view.View;
  * Created by isi on 16/1/23.
  */
 public class TomatoTimerView extends View {
-    private Integer mState;
     private Paint mBgPaint;
     private Paint mArcPaint;
     private Paint mCirclePaint;
@@ -30,20 +30,17 @@ public class TomatoTimerView extends View {
 
     private long millisAll;
     private long millisLeft;
-    private long defaultCountMs = 25*1000*60;
+    private String mCenterStr;
 
+    private TimerController.State mState;
 
     public TomatoTimerView(Context context, AttributeSet attrs) {
         super(context, attrs);
         TypedArray a = context.getTheme().obtainStyledAttributes(attrs, R.styleable.TomatoTimerView,0,0);
-        try {
-            mState = a.getInteger(R.styleable.TomatoTimerView_state, 0);
-        } finally {
-            a.recycle();
-        }
         initPaint();
-        millisAll = defaultCountMs;
+        millisAll = context.getResources().getInteger(R.integer.default_time_run);
         millisLeft = millisAll;
+        mState = TimerController.State.RUNNING;
     }
 
     private void initPaint() {
@@ -88,23 +85,41 @@ public class TomatoTimerView extends View {
                 -80, 340, false, mCirclePaint);
         /* draw tomato logo */
         Bitmap bm = BitmapFactory.decodeResource(getResources(), R.drawable.tomato_white);
-        canvas.drawBitmap(bm, null, new RectF(w/2-margin,h/2-d/2-3*margin,w/2+margin,h/2-d/2-margin), mImgPaint);
+        canvas.drawBitmap(bm, null, new RectF(w / 2 - margin, h / 2 - d / 2 - 3 * margin, w / 2 + margin, h / 2 - d / 2 - margin), mImgPaint);
         /* draw arc */
         int degree = (int) (((double) millisLeft / (double) millisAll) * 360);
-        canvas.drawArc(w/2-d/2+margin,h/2-d/2+margin,
-                w/2+d/2-margin,h/2+d/2-margin,
-                -90,(int) degree,false,mArcPaint);
+        canvas.drawArc(w / 2 - d / 2 + margin, h / 2 - d / 2 + margin,
+                w / 2 + d / 2 - margin, h / 2 + d / 2 - margin,
+                -90, (int) degree, false, mArcPaint);
         /* draw remaining time */
-        String timeStr = TimeUtil.msToStr(millisLeft);
-        canvas.drawText(timeStr, w/2, h/2+getResources().getInteger(R.integer.timer_textsize)/2, mTextPaint);
+        setCenterStr();
+        canvas.drawText(mCenterStr, w / 2, h / 2 + getResources().getInteger(R.integer.timer_textsize) / 2, mTextPaint);
     }
 
-    public Integer getmState() {
-        return mState;
+    private void setCenterStr() {
+        switch (mState) {
+            case RUNNING:
+            case RESTING:
+                mCenterStr = TimeUtil.msToStr(millisLeft); break;
+            case REST_DONE:
+                mCenterStr = getResources().getString(R.string.rest_done_hint);
+        }
     }
 
-    public void setmState(Integer state) {
+    public void setState(TimerController.State state) {
         mState = state;
+        if (null == mBgPaint)
+            return;
+        switch (mState) {
+            case RUNNING:
+                mBgPaint.setColor(getResources().getColor(R.color.colorPrimaryLight)); break;
+            case RESTING:
+                mBgPaint.setColor(getResources().getColor(R.color.resting)); break;
+            case REST_DONE:
+                mBgPaint.setColor(getResources().getColor(R.color.rest_done));
+
+                break;
+        }
         invalidate();
         requestLayout();
     }
