@@ -1,0 +1,3 @@
+drawable           ic_alarm_white_24dp      layout       mipmap-mdpi    mipmap-xxxhdpi
+file_transfer.sh   ic_equalizer_white_24dp  menu         mipmap-xhdpi   values
+file_transfer.sh~  ic_people_white_24dp     mipmap-hdpi  mipmap-xxhdpi  values-w820dp

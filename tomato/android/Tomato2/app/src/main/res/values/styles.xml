@@ -3,6 +3,7 @@
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
+        <item name="windowNoTitle">true</item>
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
@@ -14,6 +15,12 @@
         <item name="colorControlNormal">@color/colorDialog</item>
         <item name="colorControlHighlight">@color/colorDialog</item>
         <item name="colorControlActivated">@color/colorDialog</item>
+    </style>
+
+    <style name="ActionBarTheme" parent="Widget.AppCompat.Toolbar">
+        <item name="android:textColorPrimary">@color/white</item>
+        <item name="selectableItemBackground">?android:selectableItemBackground</item>
+        <item name="selectableItemBackgroundBorderless">?android:selectableItemBackground</item>
     </style>
 
 </resources>

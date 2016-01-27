@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item android:id="@+id/my_day"
+        android:icon="@mipmap/ic_play_arrow_white_24dp"
+        android:title="my_day"
+        app:showAsAction="ifRoom"/>
+
+    <item android:id="@+id/my_statistic"
+        android:icon="@mipmap/ic_add_white_24dp"
+        android:title="my_statistic"
+        app:showAsAction="ifRoom"/>
+</menu>

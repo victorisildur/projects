@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <me.isildur.tomato2.ui.TomatoTimerView
+        android:id="@+id/timer"
+        android:layout_height="250dp"
+        android:layout_width="match_parent"
+        app:state="0"/>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/my_recycler_view"
+        android:layout_below="@id/timer"
+        android:scrollbars="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+    <com.melnykov.fab.FloatingActionButton
+        android:id="@+id/fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@mipmap/ic_play_arrow_white_24dp"
+        android:elevation="10dp"
+        app:fab_colorNormal="@color/colorAccent"
+        app:fab_colorPressed="@color/colorPrimary"
+        app:fab_colorRipple="@color/colorPrimaryLight"
+        android:layout_below="@id/timer"
+        android:layout_toRightOf="@id/my_recycler_view"
+        android:layout_marginTop="-30dp"
+        android:layout_marginLeft="-80dp"/>
+
+</RelativeLayout>

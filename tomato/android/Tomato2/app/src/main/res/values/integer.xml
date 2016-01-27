@@ -3,6 +3,6 @@
     <integer name="timer_textsize">56</integer>
     <!--integer name="default_time_run">1500000</integer>
     <integer name="default_time_rest">300000</integer-->
-    <integer name="default_time_run">5000</integer>
+    <integer name="default_time_run">15000</integer>
     <integer name="default_time_rest">5000</integer>
 </resources>

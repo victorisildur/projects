@@ -5,7 +5,7 @@
     <string name="ack">确定</string>
     <string name="cancel">取消</string>
     <string name="content_dialog_title">请输入这个钟的目标</string>
-    <string name="rest_done_hint">休息结束，再来个钟？</string>
+    <string name="rest_done_hint">再来个钟？</string>
     <string name="running_notification_title">正在吃番茄...</string>
     <string name="running_notification_text">还剩16:30</string>
     <string name="resting_notification_title">休息中...</string>
