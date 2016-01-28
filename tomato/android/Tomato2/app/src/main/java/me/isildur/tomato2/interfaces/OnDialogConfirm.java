@@ -1,4 +1,4 @@
-package me.isildur.tomato2.ui;
+package me.isildur.tomato2.interfaces;
 
 /**
  * Created by isi on 16/1/26.

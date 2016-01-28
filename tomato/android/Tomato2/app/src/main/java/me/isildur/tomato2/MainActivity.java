@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
 
+import me.isildur.tomato2.interfaces.FragmentLifecycle;
 import me.isildur.tomato2.ui.PagerCollectionAdapter;
 import me.isildur.tomato2.ui_controller.ToolbarController;
 
@@ -33,7 +34,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void setToolbar() {
         mToolbarController = new ToolbarController(this, findViewById(R.id.my_toolbar), R.layout.appbar);
-        for (int i=0; i<2; i++) {
+        for (int i=0; i<3; i++) {
             final int finalI = i;
             mToolbarController.setTabClickListener(i, new View.OnClickListener() {
                 @Override
@@ -44,15 +45,15 @@ public class MainActivity extends AppCompatActivity {
         }
         mViewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-            }
-            @Override
-            public void onPageScrollStateChanged(int state) {
-            }
-            @Override
             public void onPageSelected(int position) {
                 mToolbarController.setActive(position);
+                FragmentLifecycle fragment = (FragmentLifecycle) mPagerCollectionAdapter.getItem(position);
+                fragment.onResumeFragment();
             }
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {}
+            @Override
+            public void onPageScrollStateChanged(int state) {}
         });
         mToolbarController.setActive(0);
     }

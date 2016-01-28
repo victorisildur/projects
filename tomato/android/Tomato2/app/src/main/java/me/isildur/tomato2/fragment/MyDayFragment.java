@@ -17,9 +17,10 @@ import java.util.GregorianCalendar;
 import java.util.List;
 
 import me.isildur.tomato2.R;
+import me.isildur.tomato2.interfaces.FragmentLifecycle;
 import me.isildur.tomato2.me.isildur.tomato2.data.TomatoHistory;
 import me.isildur.tomato2.me.isildur.tomato2.data.TomatoRecord;
-import me.isildur.tomato2.ui.OnDialogConfirm;
+import me.isildur.tomato2.interfaces.OnDialogConfirm;
 import me.isildur.tomato2.ui.RecordListAdapter;
 import me.isildur.tomato2.ui.TomatoContentDialog;
 import me.isildur.tomato2.ui.TomatoTimerView;
@@ -28,7 +29,7 @@ import me.isildur.tomato2.ui_controller.TimerController;
 /**
  * Created by isi on 16/1/27.
  */
-public class MyDayFragment extends Fragment implements OnDialogConfirm {
+public class MyDayFragment extends Fragment implements OnDialogConfirm, FragmentLifecycle{
     private RecyclerView mRecyclerView;
     private RecyclerView.LayoutManager mLayoutManager;
     private RecordListAdapter mAdapter;
@@ -63,8 +64,8 @@ public class MyDayFragment extends Fragment implements OnDialogConfirm {
         //new WriteDbTask().execute();
         new ReadRecordsAndBindTask().execute();
     }
-    private void initActions() {
 
+    private void initActions() {
         mFab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View view) {
@@ -72,13 +73,18 @@ public class MyDayFragment extends Fragment implements OnDialogConfirm {
             }
         });
     }
+
+    @Override
+    public void onPauseFragment() {}
+    @Override
+    public void onResumeFragment() {}
+
     private class ReadRecordsAndBindTask extends AsyncTask<Void, Integer, List<TomatoRecord>> {
         @Override
         protected List<TomatoRecord> doInBackground(Void ... voids) {
             mTomatoHistory = TomatoHistory.getInstance(getActivity());
             return mTomatoHistory.getAllRecords();
         }
-
         @Override
         protected void onPostExecute(List<TomatoRecord> records) {
             mAdapter = new RecordListAdapter(records);

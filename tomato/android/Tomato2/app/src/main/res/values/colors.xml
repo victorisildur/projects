@@ -3,6 +3,7 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorPrimaryLight">#4959bb</color>
+    <color name="pie_chart_bg">#4959bb</color>
     <color name="colorDialog">#328073</color>
     <color name="resting">#328073</color>
     <color name="rest_done">#cc6633</color>
