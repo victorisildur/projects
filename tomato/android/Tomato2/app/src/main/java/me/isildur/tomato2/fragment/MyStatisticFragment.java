@@ -4,6 +4,8 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,6 +24,7 @@ import me.isildur.tomato2.data_structure.TimePair;
 import me.isildur.tomato2.interfaces.FragmentLifecycle;
 import me.isildur.tomato2.me.isildur.tomato2.data.TomatoHistory;
 import me.isildur.tomato2.me.isildur.tomato2.data.TomatoRecord;
+import me.isildur.tomato2.ui.StatisticListAdapter;
 import me.isildur.tomato2.ui_controller.PieChartController;
 
 /**
@@ -31,12 +34,18 @@ public class MyStatisticFragment extends Fragment implements FragmentLifecycle {
     private View mRootView;
     private PieChartController mPieController;
     private TomatoHistory mTomatoHistory;
+    private StatisticListAdapter mStatisticAdapter;
+    private RecyclerView mRecyclerView;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         mRootView = inflater.inflate(R.layout.page_day_statistic, container, false);
         mPieController = new PieChartController(getActivity(),(ViewGroup) mRootView.findViewById(R.id.pie_chart_layout));
+        mRecyclerView = (RecyclerView) mRootView.findViewById(R.id.activity_rank_rv);
+        mRecyclerView.setHasFixedSize(true);
+        RecyclerView.LayoutManager lm = new LinearLayoutManager(getActivity());
+        mRecyclerView.setLayoutManager(lm);
         new ReadRecordsAndDrawPie().execute();
         return mRootView;
     }
@@ -66,6 +75,7 @@ public class MyStatisticFragment extends Fragment implements FragmentLifecycle {
     }
 
     private void sortActivitiesAndDraw(List<TomatoRecord> records) {
+        /* sort records */
         Map<String, List<TimePair>> map = new HashMap<>();
         int tomatoSum = 0;
         if(null == records)
@@ -87,10 +97,16 @@ public class MyStatisticFragment extends Fragment implements FragmentLifecycle {
             rank.add(new ActivityRankEntry(entry.getKey(), entry.getValue()));
         }
 
+        /* setup pie chart */
+        List<ActivityRankEntry> rankEntryList = new ArrayList<>();
         mPieController.reset();
         mPieController.setTomatoSum(tomatoSum);
         while(!rank.isEmpty()) {
-            mPieController.addPieSector(rank.poll());
+            mPieController.addPieSector(rank.peek());
+            rankEntryList.add(rank.poll());
         }
+        /* setup statistic list */
+        mStatisticAdapter = new StatisticListAdapter(rankEntryList, mPieController);
+        mRecyclerView.setAdapter(mStatisticAdapter);
     }
 }

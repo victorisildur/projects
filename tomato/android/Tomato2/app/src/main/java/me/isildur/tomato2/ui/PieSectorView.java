@@ -96,13 +96,18 @@ public class PieSectorView extends View {
         canvas.drawArc(rect, -90 + mStartDegree, sweepDeg, true, paint);
     }
 
-    public void altState() {
-        switch (mState) {
-            case NORMAL:
-                mState = STATE.LARGE; break;
-            case LARGE:
-                mState = STATE.NORMAL;
-        }
+
+    public void enlarge() {
+        if (mState == STATE.LARGE)
+            return;
+        mState = STATE.LARGE;
+        invalidate();
+        requestLayout();
+    }
+    public void normal() {
+        if (mState == STATE.NORMAL)
+            return;
+        mState = STATE.NORMAL;
         invalidate();
         requestLayout();
     }

@@ -6,6 +6,8 @@ import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 import me.isildur.tomato2.data_structure.ActivityRankEntry;
@@ -22,6 +24,7 @@ public class PieChartController {
     private int mTomatoSum;
     private int mFirstColor;
     private int mPrevColor;
+    private List<PieSectorView> mPieSectorViews;
 
     public PieChartController(Context context, ViewGroup parentView) {
         mContext = context;
@@ -29,19 +32,15 @@ public class PieChartController {
         mStartDegree = 0;
         mTomatoSum = 1;
         mFirstColor = 0;
-    }
-
-    public PieChartController(Context context, ViewGroup parentView, int totalTomatoSum) {
-        mContext = context;
-        mParentView = parentView;
-        mStartDegree = 0;
-        mTomatoSum = totalTomatoSum;
+        mPieSectorViews = new ArrayList<>();
     }
 
     public void reset() {
         mStartDegree = 0;
         mFirstColor = mPrevColor = 0;
+        mPieSectorViews = new ArrayList<>();
     }
+
     public void setTomatoSum(int sum) {
         mTomatoSum = sum;
     }
@@ -49,25 +48,29 @@ public class PieChartController {
     public void addPieSector(ActivityRankEntry activity) {
         int sweepDegree = (int) Math.ceil(((double) activity.getTimeList().size() / mTomatoSum) * 360);
         int color = genColor();
-        Log.i("isi", "add pie sector.. start deg:" + mStartDegree + " sweep deg:" + sweepDegree + " color:" + color);
         PieSectorView pieSectorView = new PieSectorView(mContext,mParentView,mStartDegree,sweepDegree,color,activity.getActivity());
-        pieSectorView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                ((PieSectorView)view).altState();
-            }
-        });
+        mPieSectorViews.add(pieSectorView);
+
         mStartDegree += sweepDegree;
         mParentView.addView(pieSectorView);
         mParentView.invalidate();
     }
 
+    public void enlarge(int position) {
+        if (position<0 || position>=mPieSectorViews.size())
+            return;
+        for (int i=0; i<mPieSectorViews.size(); i++) {
+            if(position == i)
+                mPieSectorViews.get(i).enlarge();
+            else
+                mPieSectorViews.get(i).normal();
+        }
+    }
+
     private int genColor() {
         int color = PieColor.COLORS[(int) (Math.random()*PieColor.COLORS.length)];
-
         if (color == mPrevColor || color == mFirstColor)
             return genColor();
-
         if (mFirstColor == 0)
             mFirstColor = color;
         mPrevColor = color;
