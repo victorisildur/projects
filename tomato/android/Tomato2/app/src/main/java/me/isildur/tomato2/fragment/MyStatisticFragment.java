@@ -1,5 +1,7 @@
 package me.isildur.tomato2.fragment;
 
+import android.content.ComponentName;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -12,13 +14,13 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.PriorityQueue;
 
 import me.isildur.tomato2.R;
+import me.isildur.tomato2.StatisticWebviewActivity;
 import me.isildur.tomato2.data_structure.ActivityRankEntry;
 import me.isildur.tomato2.data_structure.TimePair;
 import me.isildur.tomato2.interfaces.FragmentLifecycle;
@@ -55,6 +57,9 @@ public class MyStatisticFragment extends Fragment implements FragmentLifecycle {
             public void onClick(View view) {
                 Log.i("isi", "click small btn");
                 /* show webview */
+                Intent intent = new Intent(getActivity(), StatisticWebviewActivity.class);
+                intent.setAction("ACTION_SEND");
+                startActivity(intent);
             }
         });
         bigBtn.setOnClickListener(new View.OnClickListener() {
