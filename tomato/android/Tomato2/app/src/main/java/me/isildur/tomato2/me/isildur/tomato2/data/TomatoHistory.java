@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
+import java.util.Calendar;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -14,7 +15,6 @@ import me.isildur.tomato2.util.DataUtil;
  * Created by isi on 16/1/25.
  */
 public class TomatoHistory {
-    private List<TomatoRecord> mRecords;
     private HistoryDbHelper mDbHelper;
 
     public static TomatoHistory mInstance;
@@ -33,31 +33,39 @@ public class TomatoHistory {
 
     private TomatoHistory(Context context) {
         mDbHelper = new HistoryDbHelper(context);
-        getAllRecordFromDb();
     }
 
     public List<TomatoRecord> getAllRecords() {
-        return getAllRecordFromDb();
+        return getRecordsFromDb(null, null);
+    }
+
+    public List<TomatoRecord> getTodayRecords() {
+        String selection = HistoryContract.HistoryEntry.COLUMN_NAME_START_TIME + ">= ?";
+        Calendar now = Calendar.getInstance();
+        now.set(Calendar.HOUR,0);
+        now.set(Calendar.MINUTE,0);
+        now.set(Calendar.SECOND,0);
+        String[] selectionArgs = {Long.toString(now.getTimeInMillis())};
+        return getRecordsFromDb(selection, selectionArgs);
     }
 
     public boolean addRecord(TomatoRecord record) {
-        mRecords.add(record);
         insertRecordToDb(record);
         return true;
     }
 
-    private List<TomatoRecord> getAllRecordFromDb() {
-        mRecords = new LinkedList<TomatoRecord>();
+    private List<TomatoRecord> getRecordsFromDb(String selection, String[] selectionArgs) {
+        List<TomatoRecord> records = new LinkedList<>();
         String sortOrder = HistoryContract.HistoryEntry.COLUMN_NAME_START_TIME + " DESC";
         SQLiteDatabase db = mDbHelper.getReadableDatabase();
-        Cursor cursor = db.query(HistoryContract.HistoryEntry.TABLE_NAME,null,null,null,null,null,sortOrder);
+        Cursor cursor = db.query(HistoryContract.HistoryEntry.TABLE_NAME,null,selection,selectionArgs,null,null,sortOrder);
         if( !cursor.moveToFirst())
             return null;
         do {
-            mRecords.add(DataUtil.constructTomatoRecord(cursor));
+            records.add(DataUtil.constructTomatoRecord(cursor));
         } while (cursor.moveToNext());
         db.close();
-        return mRecords;
+        return records;
     }
 
     private void insertRecordToDb(TomatoRecord record) {

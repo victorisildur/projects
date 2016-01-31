@@ -18,6 +18,7 @@ public class TimeUtil {
         return minStr + ":" + secStr;
     }
     public static String cldrToTimestr(Calendar cldr) {
+
         int hour = cldr.get(Calendar.HOUR);
         int minute = cldr.get(Calendar.MINUTE);
         String hourStr = String.valueOf(hour);

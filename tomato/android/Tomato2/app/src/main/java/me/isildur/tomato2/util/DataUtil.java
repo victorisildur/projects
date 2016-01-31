@@ -1,9 +1,9 @@
 package me.isildur.tomato2.util;
 
 import android.database.Cursor;
+import android.util.Log;
 
 import java.util.Calendar;
-import java.util.GregorianCalendar;
 
 import me.isildur.tomato2.me.isildur.tomato2.data.TomatoRecord;
 import me.isildur.tomato2.me.isildur.tomato2.data.HistoryContract;
@@ -13,11 +13,11 @@ import me.isildur.tomato2.me.isildur.tomato2.data.HistoryContract;
  */
 public class DataUtil {
     public static TomatoRecord constructTomatoRecord(Cursor cursor) {
-        Integer startTime = cursor.getInt(cursor.getColumnIndexOrThrow(HistoryContract.HistoryEntry.COLUMN_NAME_START_TIME));
-        Integer endTime   = cursor.getInt(cursor.getColumnIndexOrThrow(HistoryContract.HistoryEntry.COLUMN_NAME_END_TIME));
+        long startTime = cursor.getLong(cursor.getColumnIndexOrThrow(HistoryContract.HistoryEntry.COLUMN_NAME_START_TIME));
+        long endTime   = cursor.getLong(cursor.getColumnIndexOrThrow(HistoryContract.HistoryEntry.COLUMN_NAME_END_TIME));
         String  activity  = cursor.getString(cursor.getColumnIndexOrThrow(HistoryContract.HistoryEntry.COLUMN_NAME_ACTIVITY));
-        Calendar sTime = new GregorianCalendar();
-        Calendar eTime = new GregorianCalendar();
+        Calendar sTime = Calendar.getInstance();
+        Calendar eTime = (Calendar) sTime.clone();
         sTime.setTimeInMillis(startTime);
         eTime.setTimeInMillis(endTime);
         TomatoRecord record = new TomatoRecord(sTime,eTime,activity);

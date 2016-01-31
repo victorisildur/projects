@@ -47,6 +47,21 @@ public class MyStatisticFragment extends Fragment implements FragmentLifecycle {
         RecyclerView.LayoutManager lm = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(lm);
         new ReadRecordsAndDrawPie().execute();
+        /**/
+        View smallBtn = mRootView.findViewById(R.id.small_btn);
+        View bigBtn = mRootView.findViewById(R.id.big_btn);
+        smallBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.i("isi", "click small btn");
+                /* show webview */
+            }
+        });
+        bigBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+            }
+        });
         return mRootView;
     }
 
@@ -63,15 +78,28 @@ public class MyStatisticFragment extends Fragment implements FragmentLifecycle {
         @Override
         protected List<TomatoRecord> doInBackground(Void ... voids) {
             mTomatoHistory = TomatoHistory.getInstance(getActivity());
-            return mTomatoHistory.getAllRecords();
+            return mTomatoHistory.getTodayRecords();
         }
         @Override
         protected void onPostExecute(List<TomatoRecord> records) {
-            if(records.isEmpty())
-                return;
+            boolean isNoRecord = false;
+            if(null == records) isNoRecord = true;
+            else if(records.isEmpty()) isNoRecord = true;
+            if(isNoRecord)
+                showNoRecordHint(true);
+            else
+                showNoRecordHint(false);
             /* draw pie */
             sortActivitiesAndDraw(records);
         }
+    }
+
+    private void showNoRecordHint(boolean isShow) {
+        View hint = mRootView.findViewById(R.id.today_no_record_hint);
+        if (isShow)
+            hint.setAlpha(1);
+        else
+            hint.setAlpha(0);
     }
 
     private void sortActivitiesAndDraw(List<TomatoRecord> records) {

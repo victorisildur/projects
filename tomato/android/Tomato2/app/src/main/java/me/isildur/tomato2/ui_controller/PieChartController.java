@@ -35,6 +35,10 @@ public class PieChartController {
         mPieSectorViews = new ArrayList<>();
     }
 
+    public void hide() {
+        mParentView.removeAllViews();
+    }
+
     public void reset() {
         mStartDegree = 0;
         mFirstColor = mPrevColor = 0;

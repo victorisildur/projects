@@ -6,6 +6,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,7 +14,6 @@ import android.view.ViewGroup;
 import com.melnykov.fab.FloatingActionButton;
 
 import java.util.Calendar;
-import java.util.GregorianCalendar;
 import java.util.List;
 
 import me.isildur.tomato2.R;
@@ -83,7 +83,7 @@ public class MyDayFragment extends Fragment implements OnDialogConfirm, Fragment
         @Override
         protected List<TomatoRecord> doInBackground(Void ... voids) {
             mTomatoHistory = TomatoHistory.getInstance(getActivity());
-            return mTomatoHistory.getAllRecords();
+            return mTomatoHistory.getTodayRecords();
         }
         @Override
         protected void onPostExecute(List<TomatoRecord> records) {
@@ -97,7 +97,8 @@ public class MyDayFragment extends Fragment implements OnDialogConfirm, Fragment
         protected Void doInBackground(String... strings) {
             if(strings.length < 1)
                 return null;
-            Calendar now = new GregorianCalendar();
+            Calendar now = Calendar.getInstance();
+            Log.i("isi", "add task start time:" + now.toString() + ", in ms:" + now.getTimeInMillis());
             int runMinute = getResources().getInteger(R.integer.default_time_run)/1000/60;
             TomatoRecord record = new TomatoRecord(now, runMinute, strings[0]);
             mTomatoHistory = TomatoHistory.getInstance(getActivity());
@@ -108,7 +109,7 @@ public class MyDayFragment extends Fragment implements OnDialogConfirm, Fragment
         @Override
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
-            mAdapter.setmDataSet(mTomatoHistory.getAllRecords());
+            mAdapter.setmDataSet(mTomatoHistory.getTodayRecords());
             mAdapter.notifyDataSetChanged();
         }
     }
